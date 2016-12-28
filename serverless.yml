@@ -18,7 +18,7 @@ functions:
     handler: src/index.index
     events:
       - http:
-          path: v1/index
+          path: v1
           method: get
           integration: lambda
           response:
