@@ -1,0 +1,27 @@
+service: sls-wordpress-frontend
+#plugins:
+#  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  stage: dev
+#  region: us-east-1
+
+package:
+  include:
+    - node_modules/
+    - src/
+
+functions:
+  index:
+    handler: src/index.index
+    events:
+      - http:
+          path: v1/index
+          method: get
+          integration: lambda
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            template: $input.path('$')
