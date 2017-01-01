@@ -1,6 +1,6 @@
 service: sls-wordpress-frontend
-#plugins:
-#  - serverless-webpack
+plugins:
+  - serverless-webpack
 
 provider:
   name: aws
@@ -12,6 +12,9 @@ package:
   include:
     - node_modules/
     - src/
+
+custom:
+  webpackIncludeModules: true # enable auto including modules
 
 functions:
   index:
