@@ -1,8 +1,74 @@
 'use strict';
 const WPAPI = require( 'wpapi' );
+import React, { Component } from 'react';
+import { renderToString } from 'react-dom/server';
 
-function renderFullPage(renderedContent, data) {
-    data = safeStringify(data)
+class App extends Component {
+    constructor(props, context){
+        super(props)
+    }
+    render() {
+        return (
+            <div id="container">
+                <LambdaInfo context={this.props.context} />
+                <WPPosts posts={this.props.posts} />
+            </div>
+        )
+    }
+}
+
+class LambdaInfo extends Component {
+    constructor(props, context){
+        super(props)
+    }
+    render() {
+        const context = this.props.context
+        return (
+            <header>
+                <h1>Lambda Info</h1>
+                <table>
+                    <tr><th>invokedFunctionArn</th><td>{context.invokedFunctionArn}</td></tr>
+                    <tr><th>logGroupName</th><td>{context.logGroupName}</td></tr>
+                </table>
+            </header>
+        )
+    }
+}
+
+class WPPost extends  Component {
+    constructor(props, context) {
+        super(props)
+    }
+    render() {
+        const post = this.props.post
+        return (
+            <archive key={post.id}>
+                <h2>{post.title.rendered}</h2>
+                <div dangerouslySetInnerHTML={{__html: post.excerpt.rendered}} />
+            </archive>
+        )
+    }
+}
+
+class WPPosts extends Component {
+    constructor(props, context) {
+        super(props)
+    }
+    render() {
+        const postList = this.props.posts.map( post => {
+            return <WPPost post={post} />
+        })
+        return (
+            <main>
+                <h1>WP Postlist</h1>
+                {postList}
+            </main>
+        )
+    }
+}
+
+function renderFullPage(renderedContent, context) {
+    context = safeStringify(context)
   return `<!DOCTYPE html>
 <html>
 	<head>
@@ -10,35 +76,24 @@ function renderFullPage(renderedContent, data) {
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
-		<div id="container">${renderedContent}</div>
+		${renderedContent}
         <script>
-            var props = ${data};
+            var props = ${context};
             console.log(props);
         </script>
 	</body>
 </html>`;
 }
+
 function safeStringify(obj) {
   return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--');
 }
 
-function createListHtml(data) {
-    let html = "<main>";
-    for (var i = 0; i < data.length; i++) {
-        html += "<article>"
-        html += "<h1>" + data[i].title.rendered  + "</h1>";
-        html += data[i].excerpt.rendered;
-        html += "</article>";
-    }
-    html += '</main>';
-    return html
-}
-
 module.exports.index = (event, context, callback) => {
-    const wp = new WPAPI({ endpoint: 'http://wp-kyoto.net/wp-json' });
+    const wp = new WPAPI({ endpoint: 'https://api.wp-app.org/wp-json' });
     wp.posts().then(function( data ) {
-      const renderedContent = createListHtml(data)
-      const renderedPage = renderFullPage( renderedContent, data );
+      const renderedContent = renderToString( <App posts={data} context={context}/>);
+      const renderedPage = renderFullPage( renderedContent, context );
       callback(null, renderedPage);
     }).catch(function( err ) {
         callback(err);
