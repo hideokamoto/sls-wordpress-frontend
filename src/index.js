@@ -1,20 +1,19 @@
-'use strict'
+import React,{Component} from 'react'
+import {renderToString} from 'react-dom/server'
 const WPAPI = require('wpapi')
-import { Component } from 'react'
-import { renderToString } from 'react-dom/server'
 
 class App extends Component {
-    constructor(props, context){
-        super(props)
-    }
-    render() {
-        return (
-            <div id="container">
-                <LambdaInfo context={this.props.context} />
-                <WPPosts posts={this.props.posts} />
-            </div>
-        )
-    }
+  constructor(props, context) {
+    super(props)
+  }
+  render() {
+    return (
+      <div id="container">
+        <LambdaInfo context={this.props.context} />
+        <WPPosts posts={this.props.posts} />
+      </div>
+    )
+  }
 }
 
 class LambdaInfo extends Component {
@@ -35,7 +34,7 @@ class LambdaInfo extends Component {
     }
 }
 
-class WPPost extends  Component {
+class WPPost extends Component {
     constructor(props, context) {
         super(props)
     }
@@ -67,35 +66,42 @@ class WPPosts extends Component {
     }
 }
 
+function safeStringify(obj) {
+  return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--')
+}
+
 function renderFullPage(renderedContent, context) {
-    context = safeStringify(context)
+  context = safeStringify(context)
   return `<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
-	</head>
-	<body>
-		${renderedContent}
+    <head>
+        <meta charset="utf-8">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        ${renderedContent}
         <script>
             var props = ${context};
             console.log(props);
         </script>
-	</body>
-</html>`;
-}
-
-function safeStringify(obj) {
-  return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--');
+    </body>
+</html>`
 }
 
 module.exports.index = (event, context, callback) => {
-    const wp = new WPAPI({ endpoint: 'https://api.wp-app.org/wp-json' });
-    wp.posts().then(function( data ) {
-      const renderedContent = renderToString( <App posts={data} context={context}/>);
-      const renderedPage = renderFullPage( renderedContent, context );
-      callback(null, renderedPage);
-    }).catch(function( err ) {
-        callback(err);
-    });
-};
+  const wp = new WPAPI({endpoint: 'https://api.wp-app.org/wp-json'})
+  wp.posts().then((data) => {
+    const renderedContent = renderToString(
+        <App
+            context={context}
+            posts={data}
+            />
+    )
+    const renderedPage = renderFullPage(renderedContent, context)
+
+    callback(null, renderedPage)
+  })
+  .catch((err) => {
+    callback(err)
+  })
+}
