@@ -1,4 +1,8 @@
-extends: standard
+extends:
+  - standard
+  - eslint:all
+  - plugin:react/all
 plugins:
   - standard
   - promise
+  - react
