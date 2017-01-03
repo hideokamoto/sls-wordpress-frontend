@@ -1,7 +1,7 @@
-'use strict';
-const WPAPI = require( 'wpapi' );
-import React, { Component } from 'react';
-import { renderToString } from 'react-dom/server';
+'use strict'
+const WPAPI = require('wpapi')
+import { Component } from 'react'
+import { renderToString } from 'react-dom/server'
 
 class App extends Component {
     constructor(props, context){
