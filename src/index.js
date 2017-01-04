@@ -2,13 +2,15 @@ import React, {Component} from 'react'
 import {renderToString} from 'react-dom/server'
 const WPAPI = require('wpapi')
 
-const App = () => {
-  return (
-    <div id="container">
-      <LambdaInfo context={this.props.context} />
-      <WPPosts posts={this.props.posts} />
-    </div>
-  )
+class App extends Component {
+  render() {
+    return (
+      <div id="container">
+        <LambdaInfo context={this.props.context} />
+        <WPPosts posts={this.props.posts} />
+      </div>
+    )
+  }
 }
 
 class LambdaInfo extends Component {
@@ -84,13 +86,14 @@ function renderFullPage(renderedContent, context) {
 }
 
 module.exports.index = (event, context, callback) => {
-  const wp = new WPAPI({endpoint: 'https://api.wp-app.org/wp-json'})
+  const wp = new WPAPI({'endpoint': 'https://api.wp-app.org/wp-json'})
+
   wp.posts().then((data) => {
     const renderedContent = renderToString(
         <App
             context={context}
             posts={data}
-            />
+        />
     )
     const renderedPage = renderFullPage(renderedContent, context)
 
