@@ -1,19 +1,14 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {renderToString} from 'react-dom/server'
 const WPAPI = require('wpapi')
 
-class App extends Component {
-  constructor(props, context) {
-    super(props)
-  }
-  render() {
-    return (
-      <div id="container">
-        <LambdaInfo context={this.props.context} />
-        <WPPosts posts={this.props.posts} />
-      </div>
-    )
-  }
+const App = () => {
+  return (
+    <div id="container">
+      <LambdaInfo context={this.props.context} />
+      <WPPosts posts={this.props.posts} />
+    </div>
+  )
 }
 
 class LambdaInfo extends Component {
