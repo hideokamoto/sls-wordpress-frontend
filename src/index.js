@@ -1,53 +1,18 @@
 import React from 'react'
 import {renderToString} from 'react-dom/server'
 const WPAPI = require('wpapi')
+const PostList = require('./posts/list')
+const LambdaInfo = require('./lambda')
 
 const App = (props) => {
   return (
       <div id="container">
           <LambdaInfo context={props.context} />
-          <WPPosts posts={props.posts} />
+          <PostList posts={props.posts} />
       </div>
   )
 }
 
-const LambdaInfo = (props) => {
-    const context = props.context
-    return (
-        <header>
-            <h1>Lambda Info</h1>
-            <table>
-                <tr><th>invokedFunctionArn</th><td>{context.invokedFunctionArn}</td></tr>
-                <tr><th>logGroupName</th><td>{context.logGroupName}</td></tr>
-            </table>
-        </header>
-    )
-}
-
-const WPPost = (props) => {
-    const post = props.post
-    const link = `blog/${post.slug}`
-    return (
-        <archive key={post.id} className="post">
-            <a href={link} className="post-header">
-                <h2 className="post-title">{post.title.rendered}</h2>
-            </a>
-            <div className="post-description" dangerouslySetInnerHTML={{__html: post.excerpt.rendered}} />
-        </archive>
-    )
-}
-
-const WPPosts = (props) => {
-    const postList = props.posts.map( post => {
-        return <WPPost post={post} />
-    })
-    return (
-        <main>
-            <h1>WP Postlist</h1>
-            {postList}
-        </main>
-    )
-}
 
 function safeStringify(obj) {
   return JSON.stringify(obj)
