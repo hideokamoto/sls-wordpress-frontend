@@ -28,10 +28,11 @@ const WPPost = (props) => {
     const post = props.post
     const link = `blog/${post.slug}`
     return (
-        <archive key={post.id}>
-            <a href={link}>
-                <h2>{post.title.rendered}</h2>
+        <archive key={post.id} className="post">
+            <a href={link} className="post-header">
+                <h2 className="post-title">{post.title.rendered}</h2>
             </a>
+            <div className="post-description" dangerouslySetInnerHTML={{__html: post.excerpt.rendered}} />
         </archive>
     )
 }
@@ -60,6 +61,8 @@ function renderFullPage(renderedContent, context) {
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.1/build/pure-min.css" integrity="sha384-CCTZv2q9I9m3UOxRLaJneXrrqKwUNOzZ6NGEUMwHtShDJ+nCoiXJCAgi05KfkLGY" crossorigin="anonymous">
     </head>
     <body>
         ${renderedContent}
