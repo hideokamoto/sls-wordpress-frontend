@@ -26,10 +26,12 @@ const LambdaInfo = (props) => {
 
 const WPPost = (props) => {
     const post = props.post
+    const link = `blog/${post.slug}`
     return (
         <archive key={post.id}>
-            <h2>{post.title.rendered}</h2>
-            <div dangerouslySetInnerHTML={{__html: post.excerpt.rendered}} />
+            <a href={link}>
+                <h2>{post.title.rendered}</h2>
+            </a>
         </archive>
     )
 }
