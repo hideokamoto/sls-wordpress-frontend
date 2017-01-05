@@ -4,10 +4,10 @@ const WPAPI = require('wpapi')
 
 const App = (props) => {
   return (
-    <div id="container">
-      <LambdaInfo context={props.context} />
-      <WPPosts posts={props.posts} />
-    </div>
+      <div id="container">
+          <LambdaInfo context={props.context} />
+          <WPPosts posts={props.posts} />
+      </div>
   )
 }
 
@@ -96,7 +96,8 @@ module.exports.post = (event, context, callback) => {
   const wp = new WPAPI({'endpoint': 'https://api.wp-app.org/wp-json'})
 
   wp.posts().slug(event.path.slug).then((data) => {
-      if ( data.length < 1) {
+      const minPostNum = 1;
+      if ( data.length < minPostNum) {
           throw new Error(`'Post ${event.path.slug} not found'`)
       }
     const renderedContent = renderToString(
@@ -112,6 +113,6 @@ module.exports.post = (event, context, callback) => {
   .catch((err) => {
       const renderedPage = renderFullPage('error', err)
 
-      callback(null,renderedPage)
+      callback(null, renderedPage)
   })
 }
