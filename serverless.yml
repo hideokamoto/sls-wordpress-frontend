@@ -21,7 +21,18 @@ functions:
     handler: src/index.index
     events:
       - http:
-          path: v1
+          path: /
+          method: get
+          integration: lambda
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            template: $input.path('$')
+  post:
+    handler: src/index.post
+    events:
+      - http:
+          path: /blog/{slug}
           method: get
           integration: lambda
           response:
