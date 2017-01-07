@@ -39,3 +39,11 @@ functions:
             headers:
               Content-Type: "'text/html'"
             template: $input.path('$')
+            statusCodes:
+              201:
+                pattern: ''
+              404:
+                pattern: '.*[404].*' # JSON response
+                template: $input.path("$.errorMessage") # JSON return object
+                headers:
+                  Content-Type: "'text/html'"

@@ -68,7 +68,7 @@ module.exports.post = (event, context, callback) => {
   wp.posts().slug(event.path.slug).then((data) => {
       const minPostNum = 1;
       if ( data.length < minPostNum) {
-          throw new Error(`'Post ${event.path.slug} not found'`)
+          throw new Error(`'[404]:Post ${event.path.slug} not found'`)
       }
     const renderedContent = renderToString(
         <App
@@ -81,8 +81,6 @@ module.exports.post = (event, context, callback) => {
     callback(null, renderedPage)
   })
   .catch((err) => {
-      const renderedPage = renderFullPage('error', err)
-
-      callback(null, renderedPage)
+      callback(err);
   })
 }
