@@ -12,3 +12,5 @@ rules:
     - extensions:
       - ".js"
       - ".jsx"
+  react/no-danger:
+    - 0
