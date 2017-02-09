@@ -11,6 +11,7 @@ provider:
 package:
   include:
     - node_modules/
+    - config/
     - src/
 
 custom:

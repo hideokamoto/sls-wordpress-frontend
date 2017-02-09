@@ -1,0 +1,3 @@
+module.exports = {
+  api: "https://api.wp-app.org/wp-json"
+}

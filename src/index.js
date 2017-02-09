@@ -5,11 +5,12 @@ const WPAPI = require('wpapi')
 const Container = require('./container')
 const Archive = require('./archives')
 const Single = require('./single')
+const site = require('../config/site')
 const renderFullPage = require('./lambda/renderFullPage')
 
 module.exports.index = (event, context, callback) => {
   const stage = event.stage
-  const api = 'https://api.wp-app.org/wp-json'
+  const api = site.api
   const wp = new WPAPI({'endpoint': api})
   let result = {}
   wp.url(api).get().then(data => {
@@ -45,7 +46,7 @@ module.exports.post = (event, context, callback) => {
   if ( event.path.slug === 'undefined' ) {
       callback(new Error('[404] Not found'))
   }
-  const api = 'https://api.wp-app.org/wp-json'
+  const api = site.api
   const wp = new WPAPI({'endpoint': api})
   const stage = event.stage
 
