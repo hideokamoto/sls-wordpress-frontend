@@ -2,6 +2,8 @@ import React from 'react'
 import {renderToString} from 'react-dom/server'
 const WPAPI = require('wpapi')
 const Container = require('./container')
+const Archive = require('./archives')
+const Single = require('./single')
 const renderFullPage = require('./lambda/renderFullPage')
 
 module.exports.index = (event, context, callback) => {
@@ -10,11 +12,13 @@ module.exports.index = (event, context, callback) => {
 
   wp.posts().then((data) => {
     const renderedContent = renderToString(
-        <Container
+        <Container>
+          <Archive
             context={context}
             posts={data}
             stage={stage}
-        />
+            />
+        </Container>
     )
     const renderedPage = renderFullPage(renderedContent, context)
 
@@ -39,11 +43,13 @@ module.exports.post = (event, context, callback) => {
           throw new Error(`'[404]:Post ${event.path.slug} not found'`)
       }
     const renderedContent = renderToString(
-        <Container
+        <Container>
+          <Single
             context={context}
             posts={data}
             stage={stage}
-        />
+            />
+        </Container>
     )
     const renderedPage = renderFullPage(renderedContent, event)
 

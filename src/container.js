@@ -4,10 +4,7 @@ const PostList = require('./posts/list')
 const Container = (props) => {
   return (
       <div id="container">
-          <PostList
-            posts={props.posts}
-            stage={props.stage}
-            />
+          {props.children}
       </div>
   )
 }
