@@ -6,6 +6,7 @@ const PostContent = (props) => {
       <div
         className="post-description"
         dangerouslySetInnerHTML={{__html: content}}
+        role="presentation"
         />
   )
 }

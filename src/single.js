@@ -6,7 +6,7 @@ const Content = require('./wp_posts/content')
 const Single = (props) => {
     const postList = props.posts.map( post => {
         return (
-            <div key={post.id}>
+            <div key={post.id} role="presentation">
               <Helmet
                 title={post.title.rendered}
                 />

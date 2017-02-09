@@ -9,7 +9,7 @@ const Archive = (props) => {
         const link = `/${stage}/blog/${post.slug}`
         console.log(link)
         return (
-            <div key={post.id}>
+            <div key={post.id} role="presentation">
               <a href={link} className="post-header">
                 <Title>{post.title.rendered}</Title>
               </a>
