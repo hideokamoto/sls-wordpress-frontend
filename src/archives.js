@@ -4,10 +4,8 @@ const Excerpt = require('./wp_posts/excerpt')
 
 const Archive = (props) => {
     const stage = props.stage
-    console.log(stage)
     const postList = props.posts.map( post => {
         const link = `/${stage}/blog/${post.slug}`
-        console.log(link)
         return (
             <div key={post.id} role="presentation">
               <a href={link} className="post-header">
@@ -19,7 +17,6 @@ const Archive = (props) => {
     })
     return (
         <main>
-            <h1>WP Postlist</h1>
             {postList}
         </main>
     )

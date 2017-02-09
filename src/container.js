@@ -6,7 +6,7 @@ const Container = (props) => {
   return (
       <div id="container" className="pure-g">
         <PureBlog />
-        <Header />
+        <Header site={props.site}/>
         <div role="presentation" className="content pure-u-1 pure-u-md-3-4">
           {props.children}
         </div>

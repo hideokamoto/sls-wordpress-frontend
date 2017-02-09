@@ -17,7 +17,6 @@ const Single = (props) => {
     })
     return (
         <main>
-            <h1>WP Postlist</h1>
             {postList}
         </main>
     )
