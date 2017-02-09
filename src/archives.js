@@ -3,8 +3,11 @@ const Title = require('./wp_posts/title')
 const Excerpt = require('./wp_posts/excerpt')
 
 const Archive = (props) => {
+    const stage = props.stage
+    console.log(stage)
     const postList = props.posts.map( post => {
-        const link = `${props.stage}/blog/${post.slug}`
+        const link = `/${stage}/blog/${post.slug}`
+        console.log(link)
         return (
             <div key={post.id}>
               <a href={link} className="post-header">

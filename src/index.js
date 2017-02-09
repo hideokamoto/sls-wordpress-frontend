@@ -1,5 +1,6 @@
 import React from 'react'
 import {renderToString} from 'react-dom/server'
+import Helmet from 'react-helmet';
 const WPAPI = require('wpapi')
 const Container = require('./container')
 const Archive = require('./archives')
@@ -20,7 +21,8 @@ module.exports.index = (event, context, callback) => {
             />
         </Container>
     )
-    const renderedPage = renderFullPage(renderedContent, context)
+    let head = Helmet.rewind()
+    const renderedPage = renderFullPage(renderedContent, context, head)
 
     callback(null, renderedPage)
   })
@@ -51,7 +53,8 @@ module.exports.post = (event, context, callback) => {
             />
         </Container>
     )
-    const renderedPage = renderFullPage(renderedContent, event)
+    let head = Helmet.rewind()
+    const renderedPage = renderFullPage(renderedContent, event, head)
 
     callback(null, renderedPage)
   })

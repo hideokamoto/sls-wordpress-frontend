@@ -14,7 +14,7 @@
     .replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--')
   }
 
-  function renderFullPage(renderedContent, context) {
+  function renderFullPage(renderedContent, context, head) {
     context = safeStringify(context)
 
     return `<!DOCTYPE html>
@@ -23,6 +23,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.1/build/pure-min.css" integrity="sha384-CCTZv2q9I9m3UOxRLaJneXrrqKwUNOzZ6NGEUMwHtShDJ+nCoiXJCAgi05KfkLGY" crossorigin="anonymous">
+      ${head.style}
     </head>
     <body>
       ${renderedContent}

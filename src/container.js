@@ -1,9 +1,10 @@
 import React from 'react'
-const PostList = require('./posts/list')
+const PureBlog = require('./lib/purecss_blogs')
 
 const Container = (props) => {
   return (
       <div id="container">
+          <PureBlog />
           {props.children}
       </div>
   )
