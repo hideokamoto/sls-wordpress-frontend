@@ -1,9 +1,15 @@
 import React from 'react'
-const Post = require('./posts/single')
+const Title = require('./wp_posts/title')
+const Content = require('./wp_posts/content')
 
 const Single = (props) => {
     const postList = props.posts.map( post => {
-        return <Post post={post} stage={props.stage}/>
+        return (
+            <div key={post.id}>
+              <Title>{post.title.rendered}</Title>
+              <Content>{post.content.rendered}</Content>
+            </div>
+        )
     })
     return (
         <main>
