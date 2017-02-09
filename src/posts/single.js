@@ -3,7 +3,8 @@ const PostTitle = require('./title')
 
 const Post = (props) => {
   const post = props.post
-  const link = `blog/${post.slug}`
+  const stage = props.stage
+  const link = `${stage}/blog/${post.slug}`
   return (
       <archive key={post.id} className="post">
           <a href={link} className="post-header">

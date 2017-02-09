@@ -3,7 +3,7 @@ const Post = require('./single')
 
 const PostList = (props) => {
     const postList = props.posts.map( post => {
-        return <Post post={post} />
+        return <Post post={post} stage={props.stage}/>
     })
     return (
         <main>
