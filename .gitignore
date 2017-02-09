@@ -2,3 +2,4 @@
 node_modules/
 .serverless/
 npm-debug.log
+config/site.js
